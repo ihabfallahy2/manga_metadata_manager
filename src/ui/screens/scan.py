@@ -5,7 +5,7 @@ Screen for scanning manga directories and fetching metadata.
 import asyncio
 from typing import Dict, Any
 from textual.app import ComposeResult
-from textual.widgets import Button, Label, ProgressBar, Log
+from textual.widgets import Button, Label, ProgressBar, RichLog
 from textual.containers import Vertical, Horizontal
 from textual.screen import Screen
 from textual.worker import work_thread
