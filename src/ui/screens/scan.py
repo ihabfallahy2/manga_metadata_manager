@@ -4,13 +4,38 @@ Screen for scanning manga directories and fetching metadata.
 
 import asyncio
 from typing import Dict, Any
+from textual import work
 from textual.app import ComposeResult
-from textual.widgets import Button, Label, ProgressBar, RichLog
-from textual.containers import Vertical, Horizontal
+from textual.widgets import Button, Label, ProgressBar, Static
+from textual.containers import Vertical, Horizontal, ScrollableContainer
 from textual.screen import Screen
-from textual.worker import work_thread
 
 from core.scanner import DirectoryScanner
+
+
+class LogWidget(ScrollableContainer):
+    """Custom log widget that scrolls to bottom automatically."""
+    
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.log_lines = []
+    
+    def compose(self) -> ComposeResult:
+        """Compose the log widget."""
+        self.log_content = Static("", id="log-content")
+        yield self.log_content
+    
+    def write(self, message: str) -> None:
+        """Write a message to the log."""
+        self.log_lines.append(message)
+        self.log_content.update("\n".join(self.log_lines))
+        # Auto-scroll to bottom
+        self.call_after_refresh(self.scroll_end)
+    
+    def clear(self) -> None:
+        """Clear the log."""
+        self.log_lines.clear()
+        self.log_content.update("")
 
 
 class ScanScreen(Screen):
@@ -37,7 +62,7 @@ class ScanScreen(Screen):
             # Log section
             with Vertical(id="log-section"):
                 yield Label("Scan Log:", id="log-title")
-                self.log_widget = Log(id="scan-log", auto_scroll=True)
+                self.log_widget = LogWidget(id="scan-log")
                 yield self.log_widget
             
             # Control buttons
@@ -82,7 +107,7 @@ class ScanScreen(Screen):
         self._clear_log()
         
         # Start scanning in background thread
-        self.run_worker(self._scan_worker, exclusive=True)
+        self.scan_worker()
     
     def _stop_scan(self) -> None:
         """Stop the scanning process."""
@@ -97,9 +122,9 @@ class ScanScreen(Screen):
         # Cancel any running workers
         self.workers.cancel_all()
     
-    @work_thread
-    def _scan_worker(self) -> None:
-        """Worker thread for scanning directories."""
+    @work(exclusive=True, thread=True)
+    def scan_worker(self) -> None:
+        """Worker for scanning directories."""
         try:
             # Perform the scan
             results = self.scanner.scan_paths(
@@ -208,16 +233,16 @@ class ScanScreen(Screen):
     
     def _log_info(self, message: str) -> None:
         """Log an info message."""
-        self.log_widget.write(f"[cyan]INFO[/]: {message}")
+        self.log_widget.write(f"INFO: {message}")
     
     def _log_success(self, message: str) -> None:
         """Log a success message."""
-        self.log_widget.write(f"[green]SUCCESS[/]: {message}")
+        self.log_widget.write(f"SUCCESS: {message}")
     
     def _log_warning(self, message: str) -> None:
         """Log a warning message."""
-        self.log_widget.write(f"[yellow]WARNING[/]: {message}")
+        self.log_widget.write(f"WARNING: {message}")
     
     def _log_error(self, message: str) -> None:
         """Log an error message."""
-        self.log_widget.write(f"[red]ERROR[/]: {message}")
+        self.log_widget.write(f"ERROR: {message}")

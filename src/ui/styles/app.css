@@ -83,11 +83,6 @@ Button {
     margin: 0 0 2 0;
 }
 
-#button-container {
-    align: center middle;
-    margin: 1 0 0 0;
-}
-
 #status-message {
     text-align: center;
     margin: 2 0 0 0;
@@ -141,6 +136,12 @@ Button {
 #scan-log {
     border: solid $secondary;
     height: 100%;
+    background: $surface;
+}
+
+#log-content {
+    padding: 1;
+    color: $text;
 }
 
 #control-buttons {
@@ -162,7 +163,6 @@ Button {
 #results-summary {
     color: $text;
     margin: 1 0 0 0;
-    white-space: pre;
 }
 
 /* Button variants */
@@ -200,26 +200,4 @@ ListItem:hover {
 
 ListItem > Label {
     padding: 0 1;
-}
-
-/* Responsive design */
-@media (max-width: 80) {
-    #button-container Button {
-        min-width: 8;
-        margin: 0;
-    }
-    
-    #path-input {
-        width: 95%;
-    }
-}
-
-@media (max-height: 24) {
-    #path-list {
-        height: 40%;
-    }
-    
-    #log-section {
-        height: 30%;
-    }
 }
