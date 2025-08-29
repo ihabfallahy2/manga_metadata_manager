@@ -1,0 +1,13 @@
+{
+    "cache_file": "cache.json",
+    "total_entries": 38,
+    "stats": {
+        "total": 38,
+        "processed": 38,
+        "errors": 0,
+        "pending": 0
+    },
+    "failed_entries": [],
+    "last_save": "2025-08-29T23:35:48.625514",
+    "cache_size": 3139
+}
