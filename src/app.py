@@ -21,7 +21,7 @@ from ui.screens.scan import ScanScreen
 
 # Configure logging
 logging.basicConfig(
-    level=logging.INFO,
+    level=logging.ERROR,  # Only show ERROR level messages to reduce console output
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 )
 logger = logging.getLogger(__name__)
@@ -92,6 +92,11 @@ class MangaMetadataApp(App):
         ("d", "delete_path", "Delete Path"),
         ("s", "scan", "Scan"),
         ("r", "refresh", "Refresh"),
+        ("c", "clear_cache", "Clear Cache"),
+        ("v", "validate_paths", "Validate Paths"),
+        ("i", "show_cache_info", "Cache Info"),
+        ("x", "export_cache", "Export Cache"),
+        ("t", "retry_failed", "Retry Failed"),
     ]
     
     def __init__(self):
@@ -250,6 +255,86 @@ class MangaMetadataApp(App):
         self.refresh_path_list()
         self.update_status()
         logger.info("Display refreshed")
+    
+    def show_info(self, message: str, level: str = "info", timeout: int = 5) -> None:
+        """
+        Show information as a pop-up notification.
+        
+        Args:
+            message: Message to display
+            level: Level (info, warning, error, success)
+            timeout: Time to show the message in seconds
+        """
+        # Use Textual's native notifications with custom styling
+        if level == "error":
+            self.notify(f"❌ {message}", severity="error", timeout=timeout)
+        elif level == "warning":
+            self.notify(f"⚠️  {message}", severity="warning", timeout=timeout)
+        elif level == "success":
+            self.notify(f"✅ {message}", severity="information", timeout=timeout)
+        else:
+            self.notify(f"ℹ️  {message}", severity="information", timeout=timeout)
+    
+    def clear_info(self) -> None:
+        """Clear the info area (no longer needed)."""
+        pass
+    
+    def action_clear_cache(self) -> None:
+        """Action to clear the cache."""
+        self.cache_manager.clear()
+        self.cache_manager.save(force=True)
+        self.show_info("✅ Cache cleared successfully", "success", 3)
+        logger.info("Cache cleared by user")
+    
+    def action_validate_paths(self) -> None:
+        """Action to validate all configured paths."""
+        paths = self.path_manager.get_paths()
+        valid_paths = []
+        invalid_paths = []
+        
+        for path in paths:
+            if Path(path).exists():
+                valid_paths.append(path)
+            else:
+                invalid_paths.append(path)
+        
+        if invalid_paths:
+            message = f"⚠️  Path Validation: {len(valid_paths)} valid, {len(invalid_paths)} invalid"
+            self.show_info(message, "warning", 5)
+        else:
+            message = f"✅ All {len(valid_paths)} paths are valid"
+            self.show_info(message, "success", 3)
+        
+        logger.info(f"Path validation: {len(valid_paths)} valid, {len(invalid_paths)} invalid")
+    
+    def action_show_cache_info(self) -> None:
+        """Action to show cache statistics."""
+        stats = self.cache_manager.get_stats()
+        message = f"📊 Cache: {stats['total']} total, {stats['processed']} processed, {stats['errors']} errors"
+        self.show_info(message, "info", 4)
+        logger.info("Cache statistics displayed")
+    
+    def action_export_cache(self) -> None:
+        """Action to export cache information."""
+        try:
+            cache_info = self.cache_manager.export_cache_info()
+            output_file = "cache_info.json"
+            FileManager.save_json(output_file, cache_info)
+            self.show_info(f"💾 Cache info exported to {output_file}", "success", 3)
+            logger.info(f"Cache info exported to {output_file}")
+        except Exception as e:
+            self.show_info(f"❌ Failed to export cache info: {e}", "error", 5)
+            logger.error(f"Failed to export cache info: {e}")
+    
+    def action_retry_failed(self) -> None:
+        """Action to retry failed cache entries."""
+        retried = self.cache_manager.retry_failed_entries()
+        self.cache_manager.save(force=True)
+        if retried:
+            self.show_info(f"🔄 Reset {len(retried)} failed entries for retry", "success", 3)
+        else:
+            self.show_info("ℹ️  No failed entries to retry", "info", 2)
+        logger.info(f"Reset {len(retried)} failed entries for retry")
     
     def on_list_view_selected(self, event: ListView.Selected) -> None:
         """Handle path selection in the list."""

@@ -75,10 +75,11 @@ class DirectoryScanner:
                 else:
                     self.stats["errors"] += 1
             except Exception as e:
-                logger.error(f"Error processing {folder_path}: {e}")
+                # Log as warning instead of error to avoid notifications
+                logger.warning(f"Error processing {folder_path}: {e}")
                 self.stats["errors"] += 1
                 self.cache_manager.mark_failed(folder_path, str(e))
-                self._log(log_callback, "error", f"Error processing {folder_name}: {e}")
+                self._log(log_callback, "warning", f"Error processing {folder_name}: {e}")
         
         # Save cache after processing
         self.cache_manager.save()
@@ -126,8 +127,8 @@ class DirectoryScanner:
                     })
             
             except Exception as e:
-                logger.error(f"Error scanning {base_path}: {e}")
-                self._log(log_callback, "error", f"Error scanning {base_path}: {e}")
+                # Log error but don't show as notification
+                self._log(log_callback, "warning", f"Error scanning {base_path}: {e}")
         
         return folders_to_process
     
@@ -217,7 +218,7 @@ class DirectoryScanner:
         message: str
     ) -> None:
         """
-        Send log message to callback and logger.
+        Send log message to callback only.
         
         Args:
             log_callback: Callback function for logs
@@ -227,13 +228,9 @@ class DirectoryScanner:
         if log_callback:
             log_callback(level, message)
         
-        # Also log to Python logger
+        # Only log errors to Python logger to avoid notifications
         if level == "error":
             logger.error(message)
-        elif level == "warning":
-            logger.warning(message)
-        else:
-            logger.info(message)
     
     def get_folder_summary(self, paths: List[str]) -> Dict[str, Any]:
         """
@@ -285,6 +282,7 @@ class DirectoryScanner:
                 summary["folders_by_path"][base_path] = path_summary
                 
             except Exception as e:
-                logger.error(f"Error analyzing {base_path}: {e}")
+                # Log as warning instead of error to avoid notifications
+                logger.warning(f"Error analyzing {base_path}: {e}")
         
         return summary
