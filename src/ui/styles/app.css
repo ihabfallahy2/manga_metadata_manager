@@ -39,6 +39,7 @@
 #stats {
     color: $text-muted;
     dock: right;
+    padding: 0 1;
 }
 
 #button-container {
@@ -49,6 +50,36 @@
 Button {
     margin: 0 1;
     min-width: 12;
+}
+
+/* Custom notification styles - make them more elegant */
+Notification {
+    margin: 0 2 2 2;
+    border: solid $primary;
+    background: $surface;
+    padding: 1;
+    text-align: center;
+}
+
+Notification.error {
+    border: solid $error;
+    background: $surface;
+    color: $error;
+    text-style: bold;
+}
+
+Notification.warning {
+    border: solid $warning;
+    background: $surface;
+    color: $warning;
+    text-style: bold;
+}
+
+Notification.information {
+    border: solid $primary;
+    background: $surface;
+    color: $text;
+    text-style: bold;
 }
 
 /* Add Path Screen */
@@ -67,8 +98,22 @@ Button {
 
 #help-text {
     text-align: center;
+}
+
+/* Custom Footer Styles */
+#custom-footer {
+    dock: bottom;
+    height: 1;
+    background: $surface;
+    border-top: solid $primary;
+    padding: 0 1;
+    align: center middle;
+}
+
+.footer-item {
+    margin: 0 1;
     color: $text-muted;
-    margin: 0 0 2 0;
+    text-style: bold;
 }
 
 #path-input {
@@ -106,21 +151,34 @@ Button {
     border: solid $primary;
     padding: 1;
     margin: 0 0 1 0;
-    height: 8;
+    height: 10;
 }
 
 #status-label {
     text-style: bold;
     margin: 0 0 1 0;
+    color: $accent;
 }
 
 #progress-bar {
     margin: 0 0 1 0;
+    height: 2;
 }
 
 #progress-text {
     color: $text-muted;
     text-align: center;
+    margin: 0 0 1 0;
+}
+
+#current-folder {
+    color: $text;
+    text-style: italic;
+    text-align: center;
+    background: $surface;
+    padding: 0 1;
+    border: solid $secondary;
+    height: 2;
 }
 
 #log-section {
@@ -200,4 +258,52 @@ ListItem:hover {
 
 ListItem > Label {
     padding: 0 1;
+}
+
+/* Progress bar enhancements */
+ProgressBar {
+    background: $surface;
+    color: $primary;
+}
+
+ProgressBar > .progress-bar--bar {
+    background: $primary;
+    color: $background;
+}
+
+/* Status message styling */
+#status-message {
+    min-height: 2;
+    padding: 0 1;
+    border: solid $secondary;
+    background: $surface;
+}
+/* Info area - hidden by default, shown when needed */
+#info-area {
+    height: 2;
+    border: solid $secondary;
+    padding: 0 1;
+    margin: 0 0 1 0;
+    text-align: center;
+    background: $surface;
+}
+
+.info-error {
+    color: $error;
+    text-style: bold;
+}
+
+.info-warning {
+    color: $warning;
+    text-style: bold;
+}
+
+.info-success {
+    color: $success;
+    text-style: bold;
+}
+
+.info-info {
+    color: $text;
+    text-style: bold;
 }

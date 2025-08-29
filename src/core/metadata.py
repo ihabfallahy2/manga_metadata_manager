@@ -63,7 +63,8 @@ class MetadataManager:
         try:
             return FileManager.load_json(str(metadata_file))
         except Exception as e:
-            logger.error(f"Failed to load metadata from {metadata_file}: {e}")
+            # Log as warning instead of error to avoid notifications
+            logger.warning(f"Failed to load metadata from {metadata_file}: {e}")
             return None
     
     def save_metadata(self, folder_path: str, metadata: Dict[str, Any]) -> bool:
@@ -83,7 +84,8 @@ class MetadataManager:
         try:
             metadata_dir.mkdir(parents=True, exist_ok=True)
         except OSError as e:
-            logger.error(f"Failed to create metadata directory {metadata_dir}: {e}")
+            # Log as warning instead of error to avoid notifications
+            logger.warning(f"Failed to create metadata directory {metadata_dir}: {e}")
             return False
         
         # Save metadata JSON
@@ -91,7 +93,8 @@ class MetadataManager:
         success = FileManager.save_json(str(metadata_file), metadata)
         
         if not success:
-            logger.error(f"Failed to save metadata to {metadata_file}")
+            # Log as warning instead of error to avoid notifications
+            logger.warning(f"Failed to save metadata to {metadata_file}")
             return False
         
         # Download and save cover image
@@ -128,7 +131,8 @@ class MetadataManager:
                 logger.warning(f"Failed to download cover image from {cover_url}")
                 return False
         except Exception as e:
-            logger.error(f"Error saving cover image: {e}")
+            # Log as warning instead of error to avoid notifications
+            logger.warning(f"Error saving cover image: {e}")
             return False
     
     def search_and_save_metadata(self, folder_path: str, search_title: str) -> bool:
@@ -222,7 +226,8 @@ class MetadataManager:
             logger.info(f"Deleted metadata for {Path(folder_path).name}")
             return True
         except Exception as e:
-            logger.error(f"Failed to delete metadata from {metadata_dir}: {e}")
+            # Log as warning instead of error to avoid notifications
+            logger.warning(f"Failed to delete metadata from {metadata_dir}: {e}")
             return False
     
     def get_metadata_summary(self, folder_path: str) -> Dict[str, Any]:

@@ -111,14 +111,17 @@ class AniListService:
                     logger.warning(f"No metadata found for: {title}")
                     return None
             else:
-                logger.error(f"AniList API returned status {response.status_code}")
+                # Log as warning instead of error to avoid notifications
+                logger.warning(f"AniList API returned status {response.status_code}")
                 return None
                 
         except requests.RequestException as e:
-            logger.error(f"Request failed for {title}: {e}")
+            # Log as warning instead of error to avoid notifications
+            logger.warning(f"Request failed for {title}: {e}")
             return None
         except Exception as e:
-            logger.error(f"Unexpected error searching for {title}: {e}")
+            # Log as warning instead of error to avoid notifications
+            logger.warning(f"Unexpected error searching for {title}: {e}")
             return None
     
     def _process_media_data(self, media: Dict[str, Any]) -> Dict[str, Any]:
@@ -210,5 +213,6 @@ class AniListService:
                 logger.warning(f"Failed to download image: {url} (status: {response.status_code})")
                 return None
         except requests.RequestException as e:
-            logger.error(f"Error downloading image {url}: {e}")
+            # Log as warning instead of error to avoid notifications
+            logger.warning(f"Error downloading image {url}: {e}")
             return None

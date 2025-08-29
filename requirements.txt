@@ -1,3 +1,5 @@
 textual>=0.41.0
 requests>=2.31.0
 pathlib>=1.0.1
+# tkinter is usually included with Python, but listed here for reference
+# If tkinter is not available, the browse functionality will be disabled
