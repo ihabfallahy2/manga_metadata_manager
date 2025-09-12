@@ -11,7 +11,7 @@ from textual.widgets import Button, Label, ProgressBar, Static, Footer
 from textual.containers import Vertical, Horizontal, ScrollableContainer
 from textual.screen import Screen
 
-from core.scanner import DirectoryScanner
+from ...core.scanner import DirectoryScanner
 
 
 class LogWidget(ScrollableContainer):
@@ -312,7 +312,7 @@ class ScanScreen(Screen):
     
     def action_add_path(self) -> None:
         """Go to add path screen."""
-        from ui.screens.add_path import AddPathScreen
+        from .add_path import AddPathScreen
         add_path_screen = AddPathScreen()
         self.app.push_screen(add_path_screen)
     

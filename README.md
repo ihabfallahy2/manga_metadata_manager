@@ -28,8 +28,9 @@ pip install -r requirements.txt
 
 3. Ejecuta la aplicación:
 ```bash
-python main.py
+python -m src.app
 ```
+Nota: También puedes usar `python main.py` como un atajo.
 
 ## Uso
 

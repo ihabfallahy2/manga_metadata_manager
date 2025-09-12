@@ -8,8 +8,8 @@ from typing import Dict, Any, Optional, List
 from pathlib import Path
 from datetime import datetime, timedelta
 
-from config.settings import CACHE_FILE
-from utils.file_manager import FileManager
+from ..config.settings import CACHE_FILE
+from ..utils.file_manager import FileManager
 
 
 logger = logging.getLogger(__name__)

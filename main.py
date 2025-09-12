@@ -5,24 +5,7 @@ A TUI application for managing manga metadata with AniList integration.
 """
 
 import sys
-import os
-from pathlib import Path
-
-# Add src directory to Python path
-src_path = Path(__file__).parent / "src"
-sys.path.insert(0, str(src_path))
-
-# Change to src directory for relative imports
-os.chdir(src_path)
-
-try:
-    from app import MangaMetadataApp
-except ImportError as e:
-    print(f"Error importing app: {e}")
-    print(f"Current working directory: {os.getcwd()}")
-    print(f"Python path: {sys.path[:3]}...")  # Show first 3 entries
-    sys.exit(1)
-
+from src.app import MangaMetadataApp
 
 def main():
     """Main entry point for the application."""
@@ -30,11 +13,10 @@ def main():
         app = MangaMetadataApp()
         app.run()
     except KeyboardInterrupt:
-        print("\nAplicación cerrada por el usuario.")
+        print("\nApplication closed by the user.")
     except Exception as e:
-        print(f"Error inesperado: {e}")
+        print(f"An unexpected error occurred: {e}", file=sys.stderr)
         sys.exit(1)
-
 
 if __name__ == "__main__":
     main()

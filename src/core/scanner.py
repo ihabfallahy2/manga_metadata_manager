@@ -6,10 +6,10 @@ import logging
 from pathlib import Path
 from typing import List, Dict, Any, Callable, Optional
 
-from utils.file_manager import FileManager
-from utils.text_utils import TextProcessor
-from core.cache import CacheManager
-from core.metadata import MetadataManager
+from ..utils.file_manager import FileManager
+from ..utils.text_utils import TextProcessor
+from .cache import CacheManager
+from .metadata import MetadataManager
 
 
 logger = logging.getLogger(__name__)

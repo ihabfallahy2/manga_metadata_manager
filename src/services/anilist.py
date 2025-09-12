@@ -6,7 +6,7 @@ import requests
 from typing import Dict, Optional, Any
 import logging
 
-from config.settings import ANILIST_URL, REQUEST_TIMEOUT
+from ..config.settings import ANILIST_URL, REQUEST_TIMEOUT
 
 
 logger = logging.getLogger(__name__)
