@@ -6,9 +6,9 @@ import logging
 from pathlib import Path
 from typing import Dict, Any, Optional
 
-from config.settings import METADATA_FOLDER, METADATA_FILE, COVER_FILE
-from utils.file_manager import FileManager
-from services.anilist import AniListService
+from ..config.settings import METADATA_FOLDER, METADATA_FILE, COVER_FILE
+from ..utils.file_manager import FileManager
+from ..services.anilist import AniListService
 
 
 logger = logging.getLogger(__name__)

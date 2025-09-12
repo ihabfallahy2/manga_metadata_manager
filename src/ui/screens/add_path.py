@@ -9,8 +9,8 @@ from textual.widgets import Button, Input, Label, ListView, ListItem, Footer
 from textual.containers import Horizontal, Vertical
 from textual.screen import Screen
 
-from core.scanner import DirectoryScanner
-from ui.screens.scan import ScanScreen
+from ...core.scanner import DirectoryScanner
+from .scan import ScanScreen
 
 try:
     import tkinter as tk
