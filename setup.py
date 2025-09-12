@@ -1,22 +1,20 @@
-from setuptools import setup, find_packages
+from setuptools import find_packages, setup
 
 with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 with open("requirements.txt", "r", encoding="utf-8") as fh:
-    requirements = [line.strip() for line in fh if line.strip() and not line.startswith("#")]
+    requirements = [
+        line.strip() for line in fh if line.strip() and not line.startswith("#")
+    ]
 
 setup(
     name="manga-metadata-manager",
-    version="1.0.0",
-    author="Tu Nombre",
-    author_email="tu.email@ejemplo.com",
-    description="Un gestor de metadatos para colecciones de manga",
+    version="1.1.0",
+    description="A TUI-based metadata manager for manga collections.",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/tuusuario/manga-metadata-manager",
-    package_dir={"": "src"},
-    packages=find_packages(where="src"),
+    packages=find_packages(),
     classifiers=[
         "Development Status :: 4 - Beta",
         "Intended Audience :: End Users/Desktop",
@@ -32,7 +30,7 @@ setup(
     install_requires=requirements,
     entry_points={
         "console_scripts": [
-            "manga-metadata=main:main",
+            "manga-manager=src.app:main",
         ],
     },
 )

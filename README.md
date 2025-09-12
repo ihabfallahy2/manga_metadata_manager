@@ -15,23 +15,29 @@ Una aplicación de interfaz de línea de comandos (CLI) desarrollada en Python c
 
 ## Instalación
 
-1. Clona el repositorio:
-```bash
-git clone <repository-url>
-cd manga_metadata_manager
-```
+1. **Clona el repositorio (opcional):**
+   Si quieres la última versión de desarrollo, clona el repositorio.
+   ```bash
+   git clone <repository-url>
+   cd manga-metadata-manager
+   ```
 
-2. Instala las dependencias:
-```bash
-pip install -r requirements.txt
-```
-
-3. Ejecuta la aplicación:
-```bash
-python main.py
-```
+2. **Instala la aplicación:**
+   Desde el directorio clonado, puedes instalar el paquete. Esto también instalará todas las dependencias necesarias.
+   ```bash
+   pip install .
+   ```
+   Para desarrollo, usa el modo editable:
+   ```bash
+   pip install -e .
+   ```
 
 ## Uso
+
+Una vez instalado, puedes ejecutar la aplicación desde cualquier lugar usando el comando:
+```bash
+manga-manager
+```
 
 ### Añadir directorios de manga
 
@@ -133,6 +139,25 @@ Asegúrate de que la aplicación tenga permisos de lectura y escritura en los di
 
 ### Problemas de red
 Si hay problemas para descargar metadatos, verifica tu conexión a internet y que AniList esté accesible.
+
+## Calidad de Código
+
+Este proyecto utiliza `black` para el formateo de código y `ruff` para el linting. Para asegurar la consistencia del código, por favor ejecuta las siguientes herramientas antes de hacer un commit.
+
+1. **Instala las dependencias de desarrollo:**
+```bash
+pip install -r requirements.txt
+```
+
+2. **Formatea el código con Black:**
+```bash
+black .
+```
+
+3. **Verifica y corrige problemas de linting con Ruff:**
+```bash
+ruff check . --fix
+```
 
 ## Contribuir
 

@@ -3,3 +3,7 @@ requests>=2.31.0
 pathlib>=1.0.1
 # tkinter is usually included with Python, but listed here for reference
 # If tkinter is not available, the browse functionality will be disabled
+
+# Development tools
+black>=23.0.0
+ruff>=0.1.0
