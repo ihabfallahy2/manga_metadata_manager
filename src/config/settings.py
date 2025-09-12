@@ -26,7 +26,7 @@ CONFIG_DIR.mkdir(exist_ok=True)
 CACHE_DIR.mkdir(exist_ok=True)
 
 # File extensions to consider as manga folders
-MANGA_EXTENSIONS = {'.cbz', '.cbr', '.zip', '.rar', '.pdf'}
+MANGA_EXTENSIONS = {".cbz", ".cbr", ".zip", ".rar", ".pdf"}
 
 # Metadata folder name
 METADATA_FOLDER = "metadata"
