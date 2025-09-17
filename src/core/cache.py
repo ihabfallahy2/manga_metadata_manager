@@ -6,7 +6,7 @@ import logging
 from typing import Dict, Any, Optional
 from pathlib import Path
 
-from config.settings import CACHE_FILE
+from config.settings import CACHE_DIR, CACHE_FILE
 from utils.file_manager import FileManager
 
 
@@ -16,18 +16,18 @@ logger = logging.getLogger(__name__)
 class CacheManager:
     """Manages caching of processed folders and metadata."""
     
-    def __init__(self, cache_file: str = CACHE_FILE):
-        self.cache_file = cache_file
+    def __init__(self):
+        self.cache_file = CACHE_DIR / CACHE_FILE
         self._cache: Dict[str, Any] = {}
         self.load()
     
     def load(self) -> None:
         """Load cache from file."""
         try:
-            self._cache = FileManager.load_json(self.cache_file, {})
-            logger.debug(f"Loaded cache with {len(self._cache)} entries")
+            self._cache = FileManager.load_json(str(self.cache_file), {})
+            logger.debug(f"Loaded cache from {self.cache_file} with {len(self._cache)} entries")
         except Exception as e:
-            logger.error(f"Failed to load cache: {e}")
+            logger.error(f"Failed to load cache from {self.cache_file}: {e}")
             self._cache = {}
     
     def save(self) -> bool:
@@ -38,9 +38,9 @@ class CacheManager:
             True if saved successfully, False otherwise
         """
         try:
-            success = FileManager.save_json(self.cache_file, self._cache)
+            success = FileManager.save_json(str(self.cache_file), self._cache)
             if success:
-                logger.debug(f"Saved cache with {len(self._cache)} entries")
+                logger.debug(f"Saved cache to {self.cache_file} with {len(self._cache)} entries")
             else:
                 logger.error("Failed to save cache")
             return success

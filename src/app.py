@@ -10,7 +10,7 @@ from textual.app import App, ComposeResult
 from textual.widgets import Header, Footer, Button, ListView, ListItem, Label
 from textual.containers import Horizontal, Vertical
 
-from config.settings import CONFIG_FILE, APP_TITLE, APP_VERSION
+from config.settings import CONFIG_DIR, CONFIG_FILE, APP_TITLE, APP_VERSION
 from utils.file_manager import FileManager
 from core.cache import CacheManager
 from core.metadata import MetadataManager
@@ -30,23 +30,23 @@ logger = logging.getLogger(__name__)
 class PathManager:
     """Manages manga collection paths."""
     
-    def __init__(self, config_file: str = CONFIG_FILE):
-        self.config_file = config_file
+    def __init__(self):
+        self.config_file = CONFIG_DIR / CONFIG_FILE
         self._paths: List[str] = []
         self.load_paths()
     
     def load_paths(self) -> None:
         """Load paths from configuration file."""
-        config = FileManager.load_json(self.config_file, {})
+        config = FileManager.load_json(str(self.config_file), {})
         self._paths = config.get("paths", [])
-        logger.info(f"Loaded {len(self._paths)} paths from config")
+        logger.info(f"Loaded {len(self._paths)} paths from {self.config_file}")
     
     def save_paths(self) -> bool:
         """Save paths to configuration file."""
         config = {"paths": self._paths}
-        success = FileManager.save_json(self.config_file, config)
+        success = FileManager.save_json(str(self.config_file), config)
         if success:
-            logger.info(f"Saved {len(self._paths)} paths to config")
+            logger.info(f"Saved {len(self._paths)} paths to {self.config_file}")
         else:
             logger.error("Failed to save paths to config")
         return success
